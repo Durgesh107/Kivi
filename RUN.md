@@ -4,14 +4,17 @@
 ## Primary Review Method
 Completely local application running via Node.js backend (`server`) and Vite React frontend (`client`), managed concurrently from the root workspace.
 
----
+```
 
 ## 1. Runtimes & Versions
+```bash
 - **Node.js**: v18.x or higher
 - **npm**: v9.x or higher
 - **Browser**: Google Chrome (required for Web Speech API microphone support)
+```
 
 ## 2. Environment Variables
+```bash
 An LLM key is required for Tier 2 context verification. Create a `.env` file inside the `server/` directory based on the provided `.env.example`:
 ```env
 PORT=3000
