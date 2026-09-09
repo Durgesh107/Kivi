@@ -99,7 +99,3 @@ rm -f memory.db memory.db-shm memory.db-wal
 npx tsx src/db/init.ts
 
 ```
-
-```
-
-```
