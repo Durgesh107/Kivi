@@ -1,0 +1,19 @@
+{
+  "name": "kivi-memory",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "install:all": "npm install && npm install --prefix server && npm install --prefix client",
+  "dev:server": "npm run dev --prefix server",
+  "dev:client": "npm run dev --prefix client",
+  "dev": "concurrently -c \"cyan,magenta\" -n \"SERVER,CLIENT\" \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

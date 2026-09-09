@@ -1,0 +1,10 @@
+ Starting Kivi-memory Evaluation Suite...
+
+[TC-01] ✅ PASS (65ms) - Trace: TIER1_FAST_APPLY
+[TC-02] ✅ PASS (6ms) - Trace: TIER0_BYPASS
+[TC-03] ✅ PASS (2082ms) - Trace: TIER2_APPLIED
+
+========================================
+Evaluation Complete: 3/3 Passed
+Total Duration: 2155ms
+========================================
