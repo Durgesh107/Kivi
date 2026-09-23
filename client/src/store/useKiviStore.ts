@@ -26,7 +26,7 @@ export const useKiviStore = create<KiviState>((set, get) => ({
         body: JSON.stringify({ userId: get().userId, rawAsr, formattedText }),
       });
       const data = await res.json();
-      set({ systemLog: `⚡ Applied via ${data.traceType}` });
+      set({ systemLog: ` Applied via ${data.traceType}` });
       return data.outputText;
     } catch (error) {
       set({ systemLog: '❌ Error processing ASR' });
@@ -73,7 +73,9 @@ export const useKiviStore = create<KiviState>((set, get) => ({
           action 
         }),
       });
-      set({ systemLog: `🔄 Feedback applied: ${action.toUpperCase()} for "${canonicalWord}"` });
+      set({ 
+  systemLog: `🔄 Feedback applied: ${action.toUpperCase()} for "${canonicalWord}" at ${new Date().toLocaleTimeString()}` 
+});
     } catch (error) {
       set({ systemLog: '❌ Error submitting feedback' });
     }

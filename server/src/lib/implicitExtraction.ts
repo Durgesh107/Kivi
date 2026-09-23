@@ -5,19 +5,12 @@ import { extractNgrams } from './readPath';
 /**
  * Compares original ASR text with user-edited text to isolate the changed words.
  * Strips exact matching words from the start and end of both sentences.
- */
-// src/lib/implicitExtraction.ts (Update the isolateEdit function)
-
-/**
- * Compares original ASR text with user-edited text to isolate the changed words.
- * Strips exact matching words (case-insensitive) from the start and end of both sentences.
- */
+*/
 function isolateEdit(originalAsr: string, userEdited: string): { asrReplaced: string, editInserted: string } | null {
   const asrTokens = originalAsr.trim().split(/\s+/);
   const editTokens = userEdited.trim().split(/\s+/);
 
   let start = 0;
-  // Use .toLowerCase() to ignore casing when stripping identical context words
   while (
     start < asrTokens.length && 
     start < editTokens.length && 
@@ -64,7 +57,7 @@ export function processImplicitEdit(
   // If the user fixed a typo ("AWS" -> "a w s"), isPhonetic is true.
   const { isPhonetic } = evaluatePhoneticGate(diff.asrReplaced, diff.editInserted);
   if (!isPhonetic) {
-    return { added: false }; // Ignore semantic rewrites
+    return { added: false };
   }
 
   const normWord = diff.editInserted.toLowerCase().trim();

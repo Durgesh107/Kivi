@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useKiviStore } from '../store/useKiviStore';
 
 export function TranscriptEditor() {
@@ -6,16 +6,18 @@ export function TranscriptEditor() {
   
   const [currentText, setCurrentText] = useState('');
   const [baseAsrText, setBaseAsrText] = useState('');
+  
+  // 1. Added state to track the dynamically learned word
+  const [activeWord, setActiveWord] = useState('');
 
   const handleIncomingAsr = async () => {
-    const rawAsr = "building with next js is fast";
-    const formattedText = "Building with next js is fast.";
+    const rawAsr = currentText.toLowerCase();
+    const formattedText = currentText.charAt(0).toUpperCase() + currentText.slice(1) + (currentText.endsWith('.') ? '' : '.');
     const correctedText = await processAsrEvent(rawAsr, formattedText);
     setCurrentText(correctedText);
     setBaseAsrText(correctedText);
   };
 
-  // NEW: Trigger browser voice recording
   const handleVoiceInput = () => {
     startListening((correctedText) => {
       setCurrentText(correctedText);
@@ -25,7 +27,26 @@ export function TranscriptEditor() {
 
   const handleBlur = () => {
     if (currentText !== baseAsrText) {
+      if (baseAsrText.trim() === '') {
+        setBaseAsrText(currentText);
+        return; 
+      }
       submitImplicitEdit(baseAsrText, currentText);
+      
+      // Split both the old and new text into arrays
+      const oldWords = baseAsrText.split(' ');
+      const newWords = currentText.split(' ');
+      
+      // Compare them position-by-position to find the exact word that changed
+      let changedWord = activeWord;
+      for (let i = 0; i < newWords.length; i++) {
+        if (newWords[i] !== oldWords[i]) {
+          changedWord = newWords[i];
+          break; 
+        }
+      }
+      
+      setActiveWord(changedWord.replace(/[^\w\s]/gi, '')); 
       setBaseAsrText(currentText); 
     }
   };
@@ -35,7 +56,6 @@ export function TranscriptEditor() {
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold text-gray-800">Kivi-memory Live Transcript</h2>
         
-        {/* Action Buttons */}
         <div className="flex gap-2">
           <button 
             onClick={handleVoiceInput}
@@ -70,17 +90,18 @@ export function TranscriptEditor() {
       </div>
 
       <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+        {/* 3. Updated buttons to use the activeWord state instead of hardcoded 'Next.js' */}
         <button 
-          onClick={() => submitFeedback('Next.js', currentText, 'revert')}
+          onClick={() => submitFeedback(activeWord, currentText, 'revert')}
           className="px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded-md hover:bg-red-100 transition-colors"
         >
-          Revert "Next.js"
+          Revert {activeWord}
         </button>
         <button 
-          onClick={() => submitFeedback('Next.js', currentText, 'reinforce')}
+          onClick={() => submitFeedback(activeWord, currentText, 'reinforce')}
           className="px-3 py-1.5 text-sm bg-green-50 text-green-600 rounded-md hover:bg-green-100 transition-colors"
         >
-          Reinforce "Next.js"
+          Reinforce {activeWord}
         </button>
       </div>
     </div>

@@ -53,7 +53,7 @@ export function extractNgrams(text: string): Array<{ text: string; startIndex: n
   return ngrams;
 }
 export async function processAudioText(
-  db: Database.Database, // updated type based on your imports
+  db: Database.Database,
   userId: string,
   rawAsr: string,
   formattedText: string

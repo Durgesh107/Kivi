@@ -47,6 +47,6 @@ if (require.main === module || process.argv[1]?.includes('init.ts')) {
     insertAlias.run(3, 'sarvam kiwi');
   })();
 
-  console.log('✅ Database seeded successfully with baseline memory data.');
+  console.log(' Database seeded successfully with baseline memory data.');
   db.close();
 }

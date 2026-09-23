@@ -1,5 +1,3 @@
-// src/lib/feedbackLoop.ts
-
 import Database from 'better-sqlite3';
 import { extractNgrams } from './readPath';
 
